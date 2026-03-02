@@ -1,0 +1,4 @@
+g++
+cmake
+make
+libgtest-dev

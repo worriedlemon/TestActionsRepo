@@ -1,0 +1,7 @@
+cmake-build*
+.vs
+.idea
+bin
+obj
+_result
+CMakeDefs.cmake
