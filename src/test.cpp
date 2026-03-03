@@ -14,6 +14,13 @@ TEST(MySimpleTest, RegularNumbers)
     EXPECT_DOUBLE_EQ(MySqrt(25.0), 5.0);
 }
 
+TEST(MySimpleTest, BigNumbers)
+{
+    EXPECT_DOUBLE_EQ(MySqrt(100.0), 10.0);
+    EXPECT_DOUBLE_EQ(MySqrt(729.0), 27.0);
+    EXPECT_DOUBLE_EQ(MySqrt(1024.0), 32.0);
+}
+
 TEST(MySimpleTest, IrregularNumbers)
 {
     EXPECT_DOUBLE_EQ(MySqrt(2.0), 1.4142135623730951);
