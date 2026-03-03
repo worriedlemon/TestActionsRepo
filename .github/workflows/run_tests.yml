@@ -1,0 +1,37 @@
+name: Simple Workflow for Running Tests
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+    name: Run Tests
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v6.0.2
+      - name: Install Docker
+        run: sudo apt update && sudo apt install containerd.io docker-ce docker-ce-cli
+      - name: Prepare Docker Container
+        run: docker build -t ${{ vars.DOCKER_IMAGE }} ./CI/
+      - name: Run Docker Container
+        run: docker run -d --name ${{ vars.DOCKER_CONTAINER }} --rm -v ./:/build -w /build ${{ vars.DOCKER_IMAGE }}
+      - name: Configure Project
+        env:
+          BUILD_TYPE: Release
+          RESULTS_DIR: ${{ vars.RESULTS_DIR }}
+        run: docker exec -i ${{ vars.DOCKER_CONTAINER }} /bin/bash configure.sh
+      - name: Prepare Project
+        run: docker exec -i ${{ vars.DOCKER_CONTAINER }} make prepare build/generate
+      - name: Build Tests
+        run: docker exec -i ${{ vars.DOCKER_CONTAINER }} make build/test
+      - name: Run Tests
+        run: docker exec -i ${{ vars.DOCKER_CONTAINER }} ${{ vars.RESULTS_DIR }}/test
+      - name: Stop Container
+        if: always()
+        run: docker stop ${{ vars.DOCKER_CONTAINER }} && sleep 3 && docker rmi ${{ vars.DOCKER_IMAGE }}
+        
