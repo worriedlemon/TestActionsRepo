@@ -27,4 +27,7 @@ build:: build/generate build/main build/test
 test:
 	$(CWD)/$(RESULTS_DIR)/test
 
+docs: Doxyfile
+	doxygen Doxyfile
+
 .PHONY: prepare build test

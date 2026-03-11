@@ -1,7 +1,9 @@
 cmake-build*
+build*
 .vs
 .idea
 bin
 obj
 _result
+_docs
 CMakeDefs.cmake
