@@ -1,5 +1,6 @@
 #include <iostream>
 #include <functions.h>
+#include <classes.h>
 
 int main()
 {
@@ -18,6 +19,9 @@ int main()
         std::cerr << "Could not get square root of " << value << ": " << e.what() << std::endl;
         return EXIT_FAILURE;
     }
+
+    CoolFraction fr(1, 4);
+    fr.print();
     
     return EXIT_SUCCESS;
 }
